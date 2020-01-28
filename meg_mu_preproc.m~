@@ -119,7 +119,7 @@ condSeries = {
     {'std', 'pitch-m', 'timbre-m', 'loc-m', 'intens-m', 'slide-m', 'duration-m', 'rhythm-m', ...
     'std1', 'std2', 'std4', 'std124', 'std-key', 'std-meter', 'std-key-meter', 'std1-all'}, ...
     {'pitch-ns', 'timbre-ns', 'loc-ns', 'intens-ns', 'slide-ns', 'duration-ns', 'rhythm-ns', ...
-    'std2-ns', 'std1-ns', 'std4-ns', 'std124-ns', 'std-key-ns', 'std-meter-ns', 'std-key-meter-ns', 'std1-all-ns'}};
+    'std2-ns', 'std1-ns', 'std4-ns', 'std124-ns', 'std-ns-key', 'std-ns-meter', 'std-ns-key-meter', 'std1-all-ns'}};
 
 %%
 % condsid = {'aud', 'vis', 'AV'};
@@ -252,15 +252,13 @@ condSeries = {
         ex1_labels = ex1_labels(~cellfun(@isempty, labels),1); % same for the labels (so that they match the cfg.trl structure)
         ex2_labels = ex2_labels(~cellfun(@isempty, labels),1); % same for the labels (so that they match the cfg.trl structure)
         full_trl = cfg.trl;
-        temp_cfg = cfg;
         %     toc
         
         for j = 1:length(condSeries{input(3)})  %length(unique(labels_concat))   %length(condList)
-            cfg = temp_cfg;
             % select only the trials pertaining to the relevant condition
             if ismember(condSeries{input(3)}{j}, {'std124', 'std124-ns'})
                 cfg.trl = cfg.trl(match_str(ex1_labels, condSeries{input(3)}{j}),:);
-            elseif ismember(condSeries{input(3)}{j}, {'std1-all', 'std1-all-ns'})
+            elseif ismember(condSeries{input(3){j}}, {'std1-all', 'std1-all-ns'})
                 cfg.trl = cfg.trl(match_str(ex2_labels, condSeries{input(3)}{j}),:);
             else
                 cfg.trl = cfg.trl(match_str(labels, condSeries{input(3)}{j}),:);
@@ -346,7 +344,6 @@ condSeries = {
             end
             clear full_trials trials
         end
-        clear temp_cfg
     end
 % end
 

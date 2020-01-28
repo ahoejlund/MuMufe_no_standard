@@ -1,4 +1,4 @@
-function out = meg_mu_preproc(input)
+function out = meg_mu_preproc_long(input)
 
 %input = [1 1 1];
 
@@ -78,7 +78,6 @@ mainCond = 'ns';
 mTrials = 3456;
 nsTrials = 3427;
 trialCheck = cell(length(F{1}));
-serie_ids = {[1 2], 3};
 
 % Cond labels
 condList = {
@@ -101,25 +100,21 @@ condList = {
     'std1', ...
     'std2', ...
     'std4', ...
-    'std124', ...
     'std-key', ...
     'std-meter', ...
     'std-key-meter', ...
-    'std1-all', ...
     'std1-ns', ...
     'std4-ns' ...
-    'std124-ns', ...
-    'std-key-ns', ...
-    'std-meter-ns', ...
-    'std-key-meter-ns', ...
-    'std1-all-ns'};
+    'std-ns-key', ...
+    'std-ns-meter', ...
+    'std-ns-key-meter'};
 
 % Cond labels by series
 condSeries = {
     {'std', 'pitch-m', 'timbre-m', 'loc-m', 'intens-m', 'slide-m', 'duration-m', 'rhythm-m', ...
-    'std1', 'std2', 'std4', 'std124', 'std-key', 'std-meter', 'std-key-meter', 'std1-all'}, ...
+    'std1', 'std2', 'std4', 'std-key', 'std-meter', 'std-key-meter'}, ...
     {'pitch-ns', 'timbre-ns', 'loc-ns', 'intens-ns', 'slide-ns', 'duration-ns', 'rhythm-ns', ...
-    'std2-ns', 'std1-ns', 'std4-ns', 'std124-ns', 'std-key-ns', 'std-meter-ns', 'std-key-meter-ns', 'std1-all-ns'}};
+    'std2-ns', 'std1-ns', 'std4-ns', 'std-ns-key', 'std-ns-meter', 'std-ns-key-meter'}};
 
 %%
 % condsid = {'aud', 'vis', 'AV'};
@@ -139,13 +134,12 @@ condSeries = {
 
 
 %% TRIAL DEFINITION
-% for j = 1:length(condList)  %length(unique(labels_concat))   %length(condList)
-%     if ismember(condList{input(3)}, condSeries{1})
-%         series_idx = [1 2];
-%     elseif ismember(condList{input(3)}, condSeries{2})
-%         series_idx = 3;
-%     end
-    series_idx = serie_ids{input(3)};
+for j = 1:length(condList)  %length(unique(labels_concat))   %length(condList)
+    if ismember(condList{j}, condSeries{1})
+        series_idx = [1 2];
+    elseif ismember(condList{j}, condSeries{2})
+        series_idx = 3;
+    end
     for h = series_idx %1:length(serieNames)
         if ~exist(fullfile(savePath, groupNames{o}, serieNames{3}, extName, sprintf('%04d', n)), 'dir')
             mkdir(fullfile(savePath, groupNames{o}, serieNames{3}, extName, sprintf('%04d', n)))
@@ -155,7 +149,7 @@ condSeries = {
         cfg.dataset = fullfile(savePath, groupNames{o}, serieNames{h}, ...
             'tsss', sprintf('%04d_%s_tsss_mc.fif',n,serieNames{h}));
         cfg.adjust_timeline = -0.014; % measured by AHN & CB 2013-12-18 (matches AHN's memory of 13.6 ms from spring 2011, and the 14 ms measurement from 2013-11-01)
-        cfg.trialdef.prestim = 0.100+cfg.adjust_timeline; % preparing for the 14 ms offset (= 396)
+        cfg.trialdef.prestim = 0.410+cfg.adjust_timeline; % preparing for the 14 ms offset (= 396)
         cfg.trialdef.poststim = 0.410-cfg.adjust_timeline; % SOA 205 (prep for 14 ms offset = 424)
         cfg.trialdef.eventtype = 'STI101';  % Specifying where markers are located.
         cfg.trialdef.eventvalue = 1:133; % Trigger values to include.
@@ -199,8 +193,6 @@ condSeries = {
         
         % re-labeling
         labels = cell(size(cfg.trl,1),1);
-        ex1_labels = cell(size(cfg.trl,1),1);
-        ex2_labels = cell(size(cfg.trl,1),1);
         stds1_clean = stds1(~ismember(stds1, [stds1(key_stds1); meterstds(~ismember(meterstds,stds1(key_stds1)))])); % subtracting out both key change and meter offset stds
         stds2_clean = stds1 + 1; % except for the very first trial (see above)
         stds4_clean = stds1(~ismember(stds1 + 3, rhythms)) + 3; % also does not include the very first trial, i.e. the 4th note
@@ -214,11 +206,9 @@ condSeries = {
             labels(stds1_clean) = {'std1'};
             labels(stds2_clean) = {'std2'};
             labels(stds4_clean) = {'std4'};
-            ex1_labels([stds1_clean; stds2_clean; stds4_clean]) = {'std124'}; % stds1 + stds2 + stds4
             labels((cfg.trl(:,4) > 299) & (cfg.trl(:,4) < 400)) = {'std-key'};
             labels((cfg.trl(:,4) > 499) & (cfg.trl(:,4) < 600)) = {'std-meter'};
             labels((cfg.trl(:,4) > 799) & (cfg.trl(:,4) < 900)) = {'std-key-meter'};
-            ex2_labels([stds1_clean; find(ismember(cfg.trl(:,4), [300:399 500:599 800:899]))]) = {'std1-all'}; % ALL stds1 (i.e. also incl. key, meter and key+meter changes)
             labels((cfg.trl(:,4) > 19) & (cfg.trl(:,4) < 39)) = {'pitch-m'};
             labels((cfg.trl(:,4) > 38) & (cfg.trl(:,4) < 58)) = {'timbre-m'};
             labels((cfg.trl(:,4) > 57) & (cfg.trl(:,4) < 77)) = {'loc-m'};
@@ -231,11 +221,9 @@ condSeries = {
             labels(stds1_clean) = {'std1-ns'};
             labels(stds2_clean) = {'std2-ns'};
             labels(stds4_clean) = {'std4-ns'};
-            ex1_labels([stds1_clean; stds2_clean; stds4_clean]) = {'std124-ns'}; % stds1 + stds2 + stds4
-            labels((cfg.trl(:,4) > 299) & (cfg.trl(:,4) < 400)) = {'std-key-ns'};
-            labels((cfg.trl(:,4) > 499) & (cfg.trl(:,4) < 600)) = {'std-meter-ns'};
-            labels((cfg.trl(:,4) > 799) & (cfg.trl(:,4) < 900)) = {'std-key-meter-ns'};
-            ex2_labels([stds1_clean; find(ismember(cfg.trl(:,4), [300:399 500:599 800:899]))]) = {'std1-all-ns'}; % ALL stds1 (i.e. also incl. key, meter and key+meter changes)
+            labels((cfg.trl(:,4) > 299) & (cfg.trl(:,4) < 400)) = {'std-ns-key'};
+            labels((cfg.trl(:,4) > 499) & (cfg.trl(:,4) < 600)) = {'std-ns-meter'};
+            labels((cfg.trl(:,4) > 799) & (cfg.trl(:,4) < 900)) = {'std-ns-key-meter'};
             labels((cfg.trl(:,4) > 19) & (cfg.trl(:,4) < 39)) = {'pitch-ns'};
             labels((cfg.trl(:,4) > 38) & (cfg.trl(:,4) < 58)) = {'timbre-ns'};
             labels((cfg.trl(:,4) > 57) & (cfg.trl(:,4) < 77)) = {'loc-ns'};
@@ -245,110 +233,95 @@ condSeries = {
             labels(rhythms) = {'rhythm-ns'};
         end
         labels = labels(1:size(cfg.trl,1),1); % discarding any last trials/triggers that weren't registered properly by the MEG
-        ex1_labels = ex1_labels(1:size(cfg.trl,1),1); % discarding any last trials/triggers that weren't registered properly by the MEG
-        ex2_labels = ex2_labels(1:size(cfg.trl,1),1); % discarding any last trials/triggers that weren't registered properly by the MEG
         cfg.trl = cfg.trl(~cellfun(@isempty, labels),:); % removing the stds from the very first trial
         labels = labels(~cellfun(@isempty, labels),1); % same for the labels (so that they match the cfg.trl structure)
-        ex1_labels = ex1_labels(~cellfun(@isempty, labels),1); % same for the labels (so that they match the cfg.trl structure)
-        ex2_labels = ex2_labels(~cellfun(@isempty, labels),1); % same for the labels (so that they match the cfg.trl structure)
         full_trl = cfg.trl;
-        temp_cfg = cfg;
         %     toc
         
-        for j = 1:length(condSeries{input(3)})  %length(unique(labels_concat))   %length(condList)
-            cfg = temp_cfg;
-            % select only the trials pertaining to the relevant condition
-            if ismember(condSeries{input(3)}{j}, {'std124', 'std124-ns'})
-                cfg.trl = cfg.trl(match_str(ex1_labels, condSeries{input(3)}{j}),:);
-            elseif ismember(condSeries{input(3)}{j}, {'std1-all', 'std1-all-ns'})
-                cfg.trl = cfg.trl(match_str(ex2_labels, condSeries{input(3)}{j}),:);
-            else
-                cfg.trl = cfg.trl(match_str(labels, condSeries{input(3)}{j}),:);
-            end
-            trl = cfg.trl;
-            
-            % Baseline correction
-            cfg.demean = 'yes';
-            cfg.baselinewindow = [-Inf 0];
-            
-            data = ft_preprocessing(cfg);
-            
-            % ARTEFACT DETECTION
-            cfg = [];
-            %     cfg.datafile = fullfile(savePath, groupNames{o}, serieNames{h}, 'tsss', sprintf('%04d_%s_tsss_mc.fif',n,serieNames{h}));
-            %     cfg.headerfile = fullfile(savePath, groupNames{o}, serieNames{h}, 'tsss', sprintf('%04d_%s_tsss_mc.fif',n,serieNames{h}));
-            cfg.trl = trl;
-            cfg.continuous = 'yes';
-            cfg.memory = 'low';
-            % channel selection, cutoff and padding
-            cfg.artfctdef.zvalue.channel    = 'MEG';
-            cfg.artfctdef.zvalue.cutoff     = 30;
-            cfg.artfctdef.zvalue.trlpadding = 0;
-            cfg.artfctdef.zvalue.artpadding = 0;
-            cfg.artfctdef.zvalue.fltpadding = 0;
-            % algorithmic parameters
-            cfg.artfctdef.zvalue.cumulative    = 'yes';
-            cfg.artfctdef.zvalue.medianfilter  = 'yes';
-            cfg.artfctdef.zvalue.medianfiltord = 9;
-            cfg.artfctdef.zvalue.absdiff       = 'yes';
-            [cfg, artifact_jump] = ft_artifact_zvalue(cfg, data);
-            
-            % ARTEFACT REJECTION
-            cfg.artfctdef.reject = 'complete'; % this rejects complete trials
-            cfg.artfctdef.jump.artifact = artifact_jump;
-            data = ft_rejectartifact(cfg, data);
-            
-            if ~strcmp(serieNames{h},'ns')
-                conds{h} = data;
-                full_trials{h} = full_trl;
-                trials{h} = trl;
-            else
-                full_trials = full_trl;
-                trials = trl;
-            end
-            
-            % APPEND M1 & M2
-            % Because location of sensors with respect to the head is lost with this
-            % function, we save them and load them again.
-            if strcmp(serieNames{h},'m2')
-                grad = conds{1}.grad;
-                data = ft_appenddata([],conds{:});
-                data.grad = grad;
-                data.subject = sprintf('%04d', n);
-            end
-            
-            if ~strcmp(serieNames{h},'m1')
-                % TIMELOCK ANALYSIS AND IMPLICITLY SELECTING DATA FOR SINGLE TRIAL ANALYSIS
-                % NB! Use ft_timelockanalysis WITH cfg.keeptrials = 'yes' to get data into
-                % 'rpt_chan_time' dimensions (i.e. a trial-field with just one big 3D
-                % matrix rather than N cells with matrices of chan_time (where N is number
-                % of trials)). This structure allows ft_math to be applied to the single
-                % trials.
-                
-                % averaging (aka. timelock analysis)
-                cfg = [];
-                cfg.channel = 'MEG';
-                cfg.keeptrials = 'yes';
-                cfg.removemean = 'no';
-                
-                %     cfg.trials = match_str(labels_concat, condList{input(3)});
-                cfg.trials = 'all'; % cuz we're looping over conditions
-                
-                cfg_old = cfg;
-                cfg_old.keeptrials = 'no';
-                data_struct = ft_timelockanalysis(cfg, data);
-                data_struct_tlck = ft_timelockanalysis(cfg_old, data);
-                save(fullfile(savePath, groupNames{o}, serieNames{3}, extName, sprintf('%04d', n), sprintf('%04d_%s_evoked.mat', n, strrep(condSeries{input(3)}{j},'-','_'))), 'data_struct_tlck');
-                save(fullfile(savePath, groupNames{o}, serieNames{3}, extName, sprintf('%04d', n), sprintf('%04d_%s_preprocessed.mat', n, strrep(condSeries{input(3)}{j},'-','_'))), 'data_struct');
-                save(fullfile(savePath, groupNames{o}, serieNames{3}, extName, sprintf('%04d', n), sprintf('%04d_%s_checks.mat', n, strrep(condSeries{input(3)}{j},'-','_'))), ...
-                    'full_trials', 'trials');
-                clear data_struct data_struct_tlck
-            end
-            clear full_trials trials
+        % select only the trials pertaining to the relevant condition
+        cfg.trl = cfg.trl(match_str(labels, condList{j}),:);
+        trl = cfg.trl;
+        
+        % Baseline correction
+        cfg.demean = 'yes';
+        cfg.baselinewindow = [-Inf Inf];
+        
+        data = ft_preprocessing(cfg);
+        
+        % ARTEFACT DETECTION
+        cfg = [];
+        %     cfg.datafile = fullfile(savePath, groupNames{o}, serieNames{h}, 'tsss', sprintf('%04d_%s_tsss_mc.fif',n,serieNames{h}));
+        %     cfg.headerfile = fullfile(savePath, groupNames{o}, serieNames{h}, 'tsss', sprintf('%04d_%s_tsss_mc.fif',n,serieNames{h}));
+        cfg.trl = trl;
+        cfg.continuous = 'yes';
+        cfg.memory = 'low';
+        % channel selection, cutoff and padding
+        cfg.artfctdef.zvalue.channel    = 'MEG';
+        cfg.artfctdef.zvalue.cutoff     = 30;
+        cfg.artfctdef.zvalue.trlpadding = 0;
+        cfg.artfctdef.zvalue.artpadding = 0;
+        cfg.artfctdef.zvalue.fltpadding = 0;
+        % algorithmic parameters
+        cfg.artfctdef.zvalue.cumulative    = 'yes';
+        cfg.artfctdef.zvalue.medianfilter  = 'yes';
+        cfg.artfctdef.zvalue.medianfiltord = 9;
+        cfg.artfctdef.zvalue.absdiff       = 'yes';
+        [cfg, artifact_jump] = ft_artifact_zvalue(cfg, data);
+        
+        % ARTEFACT REJECTION
+        cfg.artfctdef.reject = 'complete'; % this rejects complete trials
+        cfg.artfctdef.jump.artifact = artifact_jump;
+        data = ft_rejectartifact(cfg, data);
+        
+        if ~strcmp(serieNames{h},'ns')
+            conds{h} = data;
+            full_trials{h} = full_trl;
+            trials{h} = trl;
+        else
+            full_trials = full_trl;
+            trials = trl;
         end
-        clear temp_cfg
+
+        % APPEND M1 & M2
+        % Because location of sensors with respect to the head is lost with this
+        % function, we save them and load them again.
+        if strcmp(serieNames{h},'m2')
+            grad = conds{1}.grad;
+            data = ft_appenddata([],conds{:});
+            data.grad = grad;
+            data.subject = sprintf('%04d', n);
+        end
+    
+        if ~strcmp(serieNames{h},'m1')
+            % TIMELOCK ANALYSIS AND IMPLICITLY SELECTING DATA FOR SINGLE TRIAL ANALYSIS
+            % NB! Use ft_timelockanalysis WITH cfg.keeptrials = 'yes' to get data into
+            % 'rpt_chan_time' dimensions (i.e. a trial-field with just one big 3D
+            % matrix rather than N cells with matrices of chan_time (where N is number
+            % of trials)). This structure allows ft_math to be applied to the single
+            % trials.
+            
+            % averaging (aka. timelock analysis)
+            cfg = [];
+            cfg.channel = 'MEG';
+            cfg.keeptrials = 'yes';
+            cfg.removemean = 'no';
+            
+            %     cfg.trials = match_str(labels_concat, condList{j});
+            cfg.trials = 'all'; % cuz we're looping over conditions
+            
+            cfg_old = cfg;
+            cfg_old.keeptrials = 'no';
+            data_struct = ft_timelockanalysis(cfg, data);
+            data_struct_tlck = ft_timelockanalysis(cfg_old, data);
+            save(fullfile(savePath, groupNames{o}, serieNames{3}, extName, sprintf('%04d', n), sprintf('%04d_%s_evoked.mat', n, strrep(condList{j},'-','_'))), 'data_struct_tlck');
+            save(fullfile(savePath, groupNames{o}, serieNames{3}, extName, sprintf('%04d', n), sprintf('%04d_%s_preprocessed.mat', n, strrep(condList{j},'-','_'))), 'data_struct');
+            save(fullfile(savePath, groupNames{o}, serieNames{3}, extName, sprintf('%04d', n), sprintf('%04d_%s_checks.mat', n, strrep(condList{j},'-','_'))), ...
+                'full_trials', 'trials');
+            clear data_struct data_struct_tlck
+        end
+        clear full_trials trials
     end
-% end
+end
 
 
 %% MMNs - single trial level

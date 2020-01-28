@@ -1,0 +1,215 @@
+Executing following command on 3 threads:
+matlab -r meg_mu_grandaverage(1)
+Hyades detected. Using software rendering
+MATLAB is selecting SOFTWARE OPENGL rendering.
+Hyades detected. Matlab is limited to a single computational thread
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2016 The MathWorks, Inc.
+                   R2016b (9.1.0.441655) 64-bit (glnxa64)
+                             September 7, 2016
+
+ 
+To get started, type one of these: helpwin, helpdesk, or demo.
+For product information, visit www.mathworks.com.
+ 
+[Warning: Name is nonexistent or not a directory:
+/opt/local/matlab_toolbox/visualizeData] 
+[> In path (line 109)
+  In addpath (line 88)
+  In startup (line 19)] 
+[Warning: Name is nonexistent or not a directory:
+/opt/local/MNE-stable/share/matlab] 
+[> In path (line 109)
+  In addpath (line 88)
+  In startup (line 20)] 
+[Warning: Multiple versions of FieldTrip on your path will confuse FieldTrip] 
+[> In ft_warning (line 184)
+  In ft_defaults>checkMultipleToolbox (line 276)
+  In ft_defaults (line 103)
+  In meg_mu_grandaverage (line 12)] 
+[Warning: one version of FieldTrip is found here:
+/projects/MINDLAB2011_14-music-autism/scripts/MEG/fieldtrip-20161231/ft_defaults.m] 
+[> In ft_defaults>checkMultipleToolbox (line 279)
+  In ft_defaults (line 103)
+  In meg_mu_grandaverage (line 12)] 
+[Warning: one version of FieldTrip is found here:
+/projects/MINDLAB2014_MEG-Visual-Modulation-MMNm/scripts/fieldtrip/latest/ft_defaults.m] 
+[> In ft_defaults>checkMultipleToolbox (line 279)
+  In ft_defaults (line 103)
+  In meg_mu_grandaverage (line 12)] 
+[Warning: You probably used addpath(genpath('path_to_fieldtrip')), this can lead
+to unexpected behaviour. See
+http://www.fieldtriptoolbox.org/faq/should_i_add_fieldtrip_with_all_subdirectories_to_my_matlab_path] 
+[> In ft_warning (line 184)
+  In ft_defaults>checkMultipleToolbox (line 282)
+  In ft_defaults (line 103)
+  In meg_mu_grandaverage (line 12)] 
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 18 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 3 seconds and required the additional allocation of an estimated 150 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 3 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 108 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 1 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 108 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 107 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 2 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 2 seconds and required the additional allocation of an estimated 107 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 2 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+the call to "ft_selectdata" took 1 seconds and required the additional allocation of an estimated 0 MB
+computing average of avg over 18 subjects
+[Warning: discarding gradiometer information because it cannot be averaged] 
+[> In ft_timelockgrandaverage (line 222)
+  In meg_mu_grandaverage (line 65)] 
+the call to "ft_timelockgrandaverage" took 1 seconds and required the additional allocation of an estimated 105 MB
+
+ans =
+
+     []
+
+>> Done executing
