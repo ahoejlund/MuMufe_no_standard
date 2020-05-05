@@ -38,10 +38,12 @@ group = groups{input(1)};
 sides = {'left', 'right'};
 chan_types = {'GRADS', 'MAGS'};
 layouts = {'neuromag306cmb.lay', 'neuromag306mag.lay'};
+ylabels = {'RMS (fT/cm)', 'Amplitude (fT)'};
 
 cond_name = 'std'; % only working with the std condition
 
-ylims = [-2e-12 5e-12];
+ylims = [-2e-12 5e-12
+    -1.5e-13 1.5e-13];
 
 %% Load data (and combine grads)
 
@@ -126,18 +128,26 @@ if ismember(1,input(2))
                 clear yy ii
             end
             if isempty(Y)
-                [Y,I]       = max(P50.avg,[],2); % if no peaks in any of the hemi-chans, just pick the max across all chans
+                if strcmp(chan_types{h}, 'MAGS') && strcmp(sides{i}, 'right')
+                    [Y,I]       = max(-P50.avg,[],2); % if no peaks in any of the hemi-chans, just pick the max across all chans
+                else
+                    [Y,I]       = max(P50.avg,[],2); % if no peaks in any of the hemi-chans, just pick the max across all chans
+                end
             end
             %         [Y,I]       = max(P50.avg,[],2);
             [X,J]       = max(Y);
             %         [XX,JJ]     = sort(Y,1,'descend');
-            maxP50.amp = X;
+            if strcmp(chan_types{h}, 'MAGS') && strcmp(sides{i}, 'right')
+                maxP50.amp = -X;
+            else
+                maxP50.amp = X;
+            end
             maxP50.lat = (I(J)/fsample) - 1/fsample + P50.time(1);
             maxP50.chan = P50.label{J};
             
             cfg_sing = [];
             cfg_sing.channel = maxP50.chan;
-            cfg_sing.ylim = ylims(1,:);
+            cfg_sing.ylim = ylims(h,:);
             cfg_sing.linewidth = 3;
             figure, ft_singleplotER(cfg_sing, GM);
             hold on, plot(maxP50.lat, maxP50.amp, 'ro', 'linewidth', 2);
@@ -145,21 +155,27 @@ if ismember(1,input(2))
             title(sprintf('P50m - %s (%s): %s - %s', chan_types{h}, sides{i}, maxP50.chan, group))
             
             xlabel('Time (s)')
-            ylabel('RMS (fT/cm)')
+            ylabel(ylabels{h})
             ax = gca();
             ax.XAxisLocation = 'origin';
             ax.YAxisLocation = 'origin';
             ax.TickDir = 'out';
             box off
-            ax.XLabel.Position(2) = ylims(1,1)*0.5;
-            ax.YLabel.Position = [0.01 ylims(1,2)*0.99 1];
+            ax.XLabel.Position(2) = ylims(h,1)*0.5;
+            ax.YLabel.Position = [0.01 ylims(h,2)*0.99 1];
             ax.YLabel.HorizontalAlignment = 'left';
             ax.Layer = 'top';
             
-            saveas(gcf,fullfile(Sdir,sprintf('maxP50_%s_%s_%S_GM.pdf',group, chan_types{h}, sides{i})),'pdf');
+            saveas(gcf,fullfile(Sdir,sprintf('maxP50_%s_%s_%s_GM.pdf',group, chan_types{h}, sides{i})),'pdf');
             
-            [topY,topI]       = max(P50.avg,[],2);
-            [topXX,topJJ]     = sort(topY,1,'descend');
+            if strcmp(chan_types{h}, 'MAGS') && strcmp(sides{i}, 'right')
+                [topY,topI]       = max(-P50.avg,[],2);
+                [topXX,topJJ]     = sort(-topY,1,'ascend');
+            else
+                [topY,topI]       = max(P50.avg,[],2);
+                [topXX,topJJ]     = sort(topY,1,'descend');
+            end
+            
             
             topP50.amp = topXX(top);
             topP50.lat = (topI(topJJ(top))./fsample) - 1/fsample + P50.time(1);
@@ -177,8 +193,8 @@ if ismember(1,input(2))
             ax.YAxisLocation = 'origin';
             ax.TickDir = 'out';
             box off
-            ax.XLabel.Position(2) = ylims(1,1)*0.5;
-            ax.YLabel.Position = [0.01 ylims(1,2)*0.99 1];
+            ax.XLabel.Position(2) = ylims(h,1)*0.5;
+            ax.YLabel.Position = [0.01 ylims(h,2)*0.99 1];
             ax.YLabel.HorizontalAlignment = 'left';
             ax.Layer = 'top';
             
@@ -208,7 +224,7 @@ end
 
 %% [NB! NOT UPDATED YET!] Max 160-260 ms in diff wave (of aud) = MMNm
 
-if ismember(2,input)
+if ismember(2,input(2))
     
     % std = load(fullfile(Wdir, subj, 'aud_tlck.mat')); std = std.data_struct.std;
     
@@ -328,7 +344,7 @@ end
 
 %% Extract peak latency for the MMN in the greatGM (bslCmb + sameCmb + oppCmb)
 
-if ismember(4,input)
+if ismember(4,input(2))
     load(fullfile(Wdir, 'greatGMall_AV_all_devCmb_tlck.mat'));
     std = data.std;
     dev = data.dev;

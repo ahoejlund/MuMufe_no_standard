@@ -14,7 +14,7 @@ grouplist{1} = [1 3 5 6 7 8 11 12 15 41 44 48 49 50 52 55 62 65]; % All CTRL par
 grouplist{2} = [19 21 24 27 30 37 38 39 43 45 46 53 54 56 57 60 61 63 64];                             % All ASD participants, identified by their exam nr (subj0058 is excluded due to medical history, see the database (wiki) for the full report of exclusions)
 
 groupNames = {'CTRL','ASD'};
-groupIDs = [2];
+groupIDs = [1 2];
 
 % input-structure specific to MEG-MuMUFE 
 for h = 1:length(groupIDs)

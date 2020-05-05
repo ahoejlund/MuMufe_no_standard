@@ -298,6 +298,14 @@ condSeries = {
             cfg.artfctdef.jump.artifact = artifact_jump;
             data = ft_rejectartifact(cfg, data);
             
+            % FILTERING
+            cfg = [];
+            cfg.lpfilter = 'yes';
+            cfg.lpfreq = 40;
+%             cfg.hpfilter = 'yes';
+%             cfg.hpsfreq = 1;
+            data = ft_preprocessing(cfg, data);
+            
             if ~strcmp(serieNames{h},'ns')
                 conds{h} = data;
                 full_trials{h} = full_trl;
